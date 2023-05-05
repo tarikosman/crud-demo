@@ -1,0 +1,194 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/products/{id}:
+    get:
+      tags:
+        - product-rest-controller
+      operationId: getEntity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProductData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    put:
+      tags:
+        - product-rest-controller
+      operationId: updateEntity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateEvent"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProductData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    delete:
+      tags:
+        - product-rest-controller
+      operationId: deleteEntity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+  /api/products:
+    get:
+      tags:
+        - product-rest-controller
+      operationId: getAllEntities
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    post:
+      tags:
+        - product-rest-controller
+      operationId: createEntity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductCreateEvent"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProductData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+components:
+  schemas:
+    ProductUpdateEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    ProductData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    AddressUpdateEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+    ProductReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+    AddressData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+    ProductCreateEvent:
+      type: object
+      properties:
+        name:
+          type: string
+    AddressCreateEvent:
+      type: object
+      properties:
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string

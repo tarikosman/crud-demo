@@ -1,0 +1,221 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/customers/{id}:
+    get:
+      tags:
+        - customer-rest-controller
+      operationId: getEntity_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/CustomerData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    put:
+      tags:
+        - customer-rest-controller
+      operationId: updateEntity_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerUpdateEvent"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/CustomerData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    delete:
+      tags:
+        - customer-rest-controller
+      operationId: deleteEntity_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+  /api/customers:
+    get:
+      tags:
+        - customer-rest-controller
+      operationId: getAllEntities_1
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+    post:
+      tags:
+        - customer-rest-controller
+      operationId: createEntity_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerCreateEvent"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/CustomerData"
+        "404":
+          description: Not Found
+          content:
+            "*/*":
+              schema:
+                type: string
+components:
+  schemas:
+    CustomerCreateEvent:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/AddressCreateEvent"
+        products:
+          type: array
+          items:
+            $ref: "api-docs-product.yaml#/components/schemas/ProductReference"
+    CustomerUpdateEvent:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/AddressUpdateEvent"
+        products:
+          type: array
+          items:
+            $ref: "api-docs-product.yaml#/components/schemas/ProductReference"
+    CustomerData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/AddressData"
+        products:
+          type: array
+          items:
+            $ref: "api-docs-product.yaml#/components/schemas/ProductData"
+    AddressCreateEvent:
+      type: object
+      properties:
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+    AddressUpdateEvent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
+    AddressData:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        street:
+          type: string
+        houseNumber:
+          type: string
+        postalCode:
+          type: string
+        city:
+          type: string
